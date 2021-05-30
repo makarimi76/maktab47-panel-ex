@@ -6,38 +6,40 @@ let sliceData = []
 
 // Update pageHash
 $(document).ready(function () {
-    pageHash = location.hash.slice(1)
-    getData()
-});
-$(window).on('hashchange', async (e) => {
-    currentPage = 1
-    pageHash = e.target.location.hash.slice(1)
-    getData()
+	pageHash = location.hash.slice(1)
+	getData()
 })
-
+$(window).on('hashchange', async (e) => {
+	currentPage = 1
+	pageHash = e.target.location.hash.slice(1)
+	getData()
+})
 
 // Fetch data & update totalData
 const getData = () => {
-    $('main').empty()
-    $.get(`http://localhost:3000/${pageHash}`, (data) => {
-        totalData = data
-        updateDom()
-    })
+	$('main').empty()
+	if (pageHash == 'orders' || pageHash == 'products')
+		$.get(`http://localhost:3000/${pageHash}`, (data) => {
+			totalData = data
+			updateDom()
+		})
 }
-
 
 // Update DOM
 const updateDom = () => {
-    sliceData = totalData.slice((currentPage - 1) * pageStep, currentPage * pageStep)
+	sliceData = totalData.slice(
+		(currentPage - 1) * pageStep,
+		currentPage * pageStep
+	)
 
-    $('main').empty()
+	$('main').empty()
 
-    let tbody = ''
+	let tbody = ''
 
-    $('main').append('<table class="table table-striped table-sm"></table>')
+	$('main').append('<table class="table table-striped table-sm"></table>')
 
-    if (pageHash === 'orders') {
-        $('table').append(`
+	if (pageHash === 'orders') {
+		$('table').append(`
             <thead>
                 <tr>
                     <th>id</th>
@@ -48,8 +50,8 @@ const updateDom = () => {
             </thead>      
         `)
 
-        sliceData.map(item => {
-            tbody += `
+		sliceData.map((item) => {
+			tbody += `
                 <tr>
                     <td>${item.id}</td>
                     <td>${item.name}</td>
@@ -57,10 +59,9 @@ const updateDom = () => {
                     <td>${item.createAt}</td>
                 </tr>
                 `
-        })
-
-    } else if (pageHash === 'products') {
-        $('table').append(`
+		})
+	} else if (pageHash === 'products') {
+		$('table').append(`
             <thead>
                 <tr>
                     <th>id</th>
@@ -71,8 +72,8 @@ const updateDom = () => {
                 </tr>
             </thead>
     `)
-        sliceData.map(item => {
-            tbody += `
+		sliceData.map((item) => {
+			tbody += `
                 <tr>
                     <td>${item.id}</td>
                     <td>${item.name}</td>
@@ -81,44 +82,57 @@ const updateDom = () => {
                     <td>${Math.ceil(Math.random() * 100)}</td>
                 </tr>
                 `
-        })
-    }
+		})
+	}
 
-    // Pagination
-    $('main').append(`<ul id='pagination' class="pagination justify-content-center"></ul>`)
+	// Pagination
+	$('main').append(
+		`<ul id='pagination' class="pagination justify-content-center"></ul>`
+	)
 
-    const totalPage = totalData.length / pageStep
+	const totalPage = totalData.length / pageStep
 
-    let pagination = ''
-    for (let i = 1; i <= totalPage; i++) {
-        if (currentPage == i) {
-            pagination += `
+	let pagination = ''
+	for (let i = 1; i <= totalPage; i++) {
+		if (currentPage == i) {
+			pagination += `
             <li class="page-item active"><a class="page-link" href="#" onclick="return false">${i}</a></li>
             `
-        } else {
-            pagination += `
+		} else {
+			pagination += `
             <li class="page-item" onclick="pageHandler(${i})" ><a class="page-link" href="#" onclick="return false">${i}</a></li>
             `
-        }
-    }
+		}
+	}
 
-    $('.pagination').html(`
-        ${currentPage !== 1 ? `
-            <li class="page-item" onclick="pageHandler(${currentPage - 1})"><a class="page-link" href="#" onclick="return false">Previous</a></li>
-        ` : ''}
+	$('.pagination').html(`
+        ${
+					currentPage !== 1
+						? `
+            <li class="page-item" onclick="pageHandler(${
+							currentPage - 1
+						})"><a class="page-link" href="#" onclick="return false">Previous</a></li>
+        `
+						: ''
+				}
         ${pagination}
-        ${!(currentPage + 1 > totalPage) ? `
-            <li class="page-item" onclick="pageHandler(${currentPage + 1})"><a class="page-link" href="#" onclick="return false">Next</a></li>
-        ` : ''}
+        ${
+					!(currentPage + 1 > totalPage)
+						? `
+            <li class="page-item" onclick="pageHandler(${
+							currentPage + 1
+						})"><a class="page-link" href="#" onclick="return false">Next</a></li>
+        `
+						: ''
+				}
     `)
 
-    $('table').append('<tbody></tbody>')
-    $('tbody').html(tbody)
+	$('table').append('<tbody></tbody>')
+	$('tbody').html(tbody)
 }
-
 
 // Page Handler
 const pageHandler = (page) => {
-    currentPage = page
-    updateDom()
+	currentPage = page
+	updateDom()
 }
