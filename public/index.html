@@ -337,16 +337,33 @@
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+						<h5 class="modal-title" id="exampleModalLabel">Add Record</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-	
+						<form>
+							<div class='p-3 border m-3'>
+								<div class="mb-3">
+									<label for='name' class="form-label">Name :</label><br>
+									<input type='text' class="form-control" id='name' >
+								</div>
+								<div class="mb-3">
+									<lable for='state' >State :</lable><br>
+									<input type="text" class="form-control" id='state'>
+								</div>
+								<div class="mb-3">
+									<lable for='file' >Image :</lable><br>
+									<input type="file" class="form-control" id='file'>
+								</div>
+							</div>
+							
+							<div class="d-grid">
+								<button type="submit" class="btn btn-primary mb-1">Send message</button>
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+							</div>
+						</form>
 					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary">Save changes</button>
-					</div>
+					
 				</div>
 			</div>
 		</div>
