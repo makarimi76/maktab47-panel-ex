@@ -96,7 +96,7 @@ const updateDom = () => {
 		`<ul id='pagination' class="pagination justify-content-center"></ul>`
 	)
 
-	const totalPage = totalData.length / pageStep
+	const totalPage = Math.ceil(totalData.length / pageStep)
 
 	let pagination = ''
 	for (let i = 1; i <= totalPage; i++) {
@@ -145,7 +145,7 @@ const pageHandler = (page) => {
 
 function updateJsonList(data) {
 	//data.id data.title data.avatar data.name
-	//data.quantity data.state data.createdAt
+	//data.state data.createdAt
 	if (data.title == 'orders') {
 		$.post('/orders', data).done(function () {
 			getData()
@@ -156,9 +156,13 @@ function updateJsonList(data) {
 		})
 	}
 }
-updateJsonList({
-	title: 'orders',
-	name: 'Taha',
-	state: '2',
-	createAt: new Date(),
+
+$('.modal-body button[type="submit"]').click(function () {
+	let modalData = {}
+	modalData.name = $('.modal-body #name').val()
+	modalData.title = window.location.hash.slice(1)
+	modalData.id = totalData.length + 1
+	modalData.createAt = new Date()
+	modalData.state = $('.modal-body #state').val()
+	updateJsonList(modalData)
 })
