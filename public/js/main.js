@@ -3,7 +3,8 @@ let pageStep = 10
 let pageHash = ''
 let totalData = []
 let sliceData = []
-const defaultSrc = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTr5BAakErp9tMExh_VNadeyHVAl5v3uKBlww&usqp=CAU"
+const defaultSrc =
+	'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTr5BAakErp9tMExh_VNadeyHVAl5v3uKBlww&usqp=CAU'
 
 // Update pageHash
 $(document).ready(function () {
@@ -59,7 +60,9 @@ const updateDom = () => {
                     <td>${item.name}</td>
                     <td>${item.state}</td>
                     <td>${item.createAt}</td>
-                    <td><img class="rounded-circle" width="50px" src=${item.image || defaultSrc}/></td>
+                    <td><img class="rounded-circle" width="50px" src=${
+											item.image || defaultSrc
+										}/></td>
                 </tr>
                 `
 		})
@@ -139,3 +142,23 @@ const pageHandler = (page) => {
 	currentPage = page
 	updateDom()
 }
+
+function updateJsonList(data) {
+	//data.id data.title data.avatar data.name
+	//data.quantity data.state data.createdAt
+	if (data.title == 'orders') {
+		$.post('/orders', data).done(function () {
+			getData()
+		})
+	} else if (data.title == 'products') {
+		$.post('/products', data).done(function () {
+			getData()
+		})
+	}
+}
+updateJsonList({
+	title: 'orders',
+	name: 'Taha',
+	state: '2',
+	createAt: new Date(),
+})
