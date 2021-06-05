@@ -3,6 +3,7 @@ let pageStep = 10
 let pageHash = ''
 let totalData = []
 let sliceData = []
+const defaultSrc = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTr5BAakErp9tMExh_VNadeyHVAl5v3uKBlww&usqp=CAU"
 
 // Update pageHash
 $(document).ready(function () {
@@ -46,6 +47,7 @@ const updateDom = () => {
                     <th>name</th>
                     <th>state</th>
                     <th>create</th>
+					<th>image</th>
                 </tr>
             </thead>      
         `)
@@ -57,6 +59,7 @@ const updateDom = () => {
                     <td>${item.name}</td>
                     <td>${item.state}</td>
                     <td>${item.createAt}</td>
+                    <td><img class="rounded-circle" width="50px" src=${item.image || defaultSrc}/></td>
                 </tr>
                 `
 		})
